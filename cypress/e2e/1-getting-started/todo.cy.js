@@ -121,7 +121,7 @@ describe('example to-do app', () => {
       cy.contains('Walk the dog').should('not.exist')
     })
 
-    it('can delete all completed tasks', () => {
+    it('Can delete all completed tasks', () => {
       // First, let's click the "Clear completed" button
       // `contains` is actually serving two purposes here.
       // First, it's ensuring that the button exists within the dom.
