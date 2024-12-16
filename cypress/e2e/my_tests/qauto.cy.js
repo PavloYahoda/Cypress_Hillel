@@ -47,7 +47,7 @@ describe('qauto: buttons in the header and footer', () => {
         cy.get(btnGuestLogIN).click();    
         cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();    
     });
-    it('Buttons in the footer', () => {
+    it('Buttons in the footer > Verify that links to Facebook, Telegram, Youtube, Instagram, Linkedin, ithillel and to support are present on the page', () => {
         //Socials all:
         cy.get('.contacts_socials.socials').children().should('have.length', 5);
         //facebook:
