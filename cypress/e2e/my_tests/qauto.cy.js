@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('example to-do app', () => {
+describe('qauto: buttons in the header and footer', () => {
     beforeEach(() => {
         cy.visit('https://qauto.forstudy.space', {
 
@@ -14,23 +14,38 @@ describe('example to-do app', () => {
         });
     });
 
-    it('Buttons in the header', () => {
+    const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
+
+    it('Buttons in the header > Verify that Logo and Sing In button are visible', () => {
         //Logo:
         cy.get('.header_logo').should('be.visible');
+        //Sing In button:
+        cy.get(btnGuestLogIN).siblings().should('exist');
+    });
+    it('Buttons in the header > Verify that buttons About, Contacts and Home are clickable', () => {    
         //About button:
         cy.get('.btn.header-link').contains('About').click();
         //Contacts button:
         cy.get('.btn.header-link').contains('Contacts').click();
         //Home button:
-        cy.get('.btn.header-link.-active').should('be.visible').click();
+        cy.get('.btn.header-link.-active').click();
         //Guest Log In button:
         const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
         cy.get(btnGuestLogIN).click();
         //Check that new page is opened and go back:
         cy.get('h1').contains('Garage').should('be.visible'); 
-        cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();
-        //Sing In button:
-        cy.get(btnGuestLogIN).siblings().should('exist');
+        cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();    
+    });
+    it('Guest: Login', () => {    
+        //Guest Log In button:
+        cy.get(btnGuestLogIN).click();
+        //Check that new page is opened and go back:
+        cy.get('h1').contains('Garage').should('be.visible');   
+    });
+    it('Guest: Log out', () => {
+        const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
+        cy.get(btnGuestLogIN).click();    
+        cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();    
     });
     it('Buttons in the footer', () => {
         //Socials all:
