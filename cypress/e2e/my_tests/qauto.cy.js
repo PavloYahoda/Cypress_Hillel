@@ -1,6 +1,21 @@
 /// <reference types="cypress" />
 
-describe('qauto: buttons in the header and footer', () => {
+const randomUser = Cypress.Helper.generateRandomUser();
+
+//Locators:
+const btnSignUp = '.btn-primary';
+const fieldName = "[name='name']";
+const fieldLastName = "[name='lastName']";
+const fieldEmail = "[name='email']";
+const fieldPassword = "[name='password']";
+const fieldReEnterPassword = "[name='repeatPassword']";
+const errorMessage = '.invalid-feedback > p';
+const btnRegister = 'Register';
+const btnLogOut = '.btn.btn-link.text-danger.btn-sidebar.sidebar_btn';
+const alert = '.alert-danger';
+
+
+describe('Register form validations', () => {
     beforeEach(() => {
         cy.visit('https://qauto.forstudy.space', {
 
@@ -12,56 +27,411 @@ describe('qauto: buttons in the header and footer', () => {
 
             },
         });
+        cy.get(btnSignUp).click();
     });
 
-    const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
+    describe('Name field validations', () => {
+        it('Empty field: Name is required. Also check text color, border color', () => {
+            cy.get(fieldName)
+                .focus()
+                .blur();
 
-    it('Buttons in the header > Verify that Logo and Sing In button are visible', () => {
-        //Logo:
-        cy.get('.header_logo').should('be.visible');
-        //Sing In button:
-        cy.get(btnGuestLogIN).siblings().should('exist');
+            cy.get(errorMessage)
+                .should('include.text', 'Name required')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data: Name is invalid.  Also check text color, border color', () => {
+            cy.get(fieldName)
+                .type('John Gaspar ')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Name is invalid')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong lenght (1 character): Name has to be from 2 to 20 characters long.  Also check text color, border color', () => {
+            cy.get(fieldName)
+                .type('J')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Name has to be from 2 to 20 characters long')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong lenght (21 characters): Name has to be from 2 to 20 characters long.  Also check text color, border color', () => {
+            cy.get(fieldName)
+                .type('JohnGasparJohnGasparJ')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Name has to be from 2 to 20 characters long')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
     });
-    it('Buttons in the header > Verify that buttons About, Contacts and Home are clickable', () => {    
-        //About button:
-        cy.get('.btn.header-link').contains('About').click();
-        //Contacts button:
-        cy.get('.btn.header-link').contains('Contacts').click();
-        //Home button:
-        cy.get('.btn.header-link.-active').click();
-        //Guest Log In button:
-        const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
-        cy.get(btnGuestLogIN).click();
-        //Check that new page is opened and go back:
-        cy.get('h1').contains('Garage').should('be.visible'); 
-        cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();    
+
+    describe('Last Name field validations', () => {
+        it('Empty field: Last name is required. Also check text color, border color', () => {
+            cy.get(fieldLastName)
+                .focus()
+                .blur();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Last name required')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldLastName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data: Last name is invalid.  Also check text color, border color', () => {
+            cy.get(fieldLastName)
+                .type('John Gaspar ')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Last name is invalid')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldLastName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong lenght (1 character): Last name has to be from 2 to 20 characters long.  Also check text color, border color', () => {
+            cy.get(fieldLastName)
+                .type('J')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Last name has to be from 2 to 20 characters long')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldLastName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong lenght (21 characters): Last name has to be from 2 to 20 characters long.  Also check text color, border color', () => {
+            cy.get(fieldLastName)
+                .type('JohnGasparJohnGasparJ')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Last name has to be from 2 to 20 characters long')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldLastName).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
     });
-    it('Guest: Login', () => {    
-        //Guest Log In button:
-        cy.get(btnGuestLogIN).click();
-        //Check that new page is opened and go back:
-        cy.get('h1').contains('Garage').should('be.visible');   
+
+    describe('Email field validation', () => {
+        it('Empty field: Email is required. Also check text color, border color', () => {
+            cy.get(fieldEmail)
+                .focus()
+                .blur();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Email required')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldEmail).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no @): Email is incorrect', () => {
+            cy.get(fieldEmail)
+                .type('john.gaspargmail.com')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Email is incorrect')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldEmail).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (two @): Email is incorrect', () => {
+            cy.get(fieldEmail)
+                .type('john@gaspar@gmail.com')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Email is incorrect')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldEmail).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no dot after @): Email is incorrect', () => {
+            cy.get(fieldEmail)
+                .type('john.gaspar@gmailcom')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Email is incorrect')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldEmail).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
     });
-    it('Guest: Log out', () => {
-        const btnGuestLogIN = '.header_right.d-flex.align-items-center > .header-link.-guest';
-        cy.get(btnGuestLogIN).click();    
-        cy.get('.btn.btn-link.text-danger.btn-sidebar.sidebar_btn').click();    
+
+    describe('Password field validation', () => {
+        it('Empty field: Password is required. Also check text color, border color', () => {
+            cy.get(fieldPassword)
+                .focus()
+                .blur();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password required')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+
+        it('Wrong lenght (7 characters): Password is incorrect', () => {
+            cy.get(fieldPassword)
+                .type('Sj4v_f8')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+
+        it('Wrong lenght (16 characters): Password is incorrect', () => {
+            cy.get(fieldPassword)
+                .type('Sj4v_f8#Sj4v_f8!')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no capital letter): Password is incorrect', () => {
+            cy.get(fieldPassword)
+                .type('sj4v_f8#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no small letter): Password is incorrect', () => {
+            cy.get(fieldPassword)
+                .type('SJ4V_F8#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no integer): Password is incorrect', () => {
+            cy.get(fieldPassword)
+                .type('SJaV_Fn#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
     });
-    it('Buttons in the footer > Verify that links to Facebook, Telegram, Youtube, Instagram, Linkedin, ithillel and to support are present on the page', () => {
-        //Socials all:
-        cy.get('.contacts_socials.socials').children().should('have.length', 5);
-        //facebook:
-        cy.get('a.socials_link').eq(0).should('have.attr', 'href').and('include', 'facebook');
-        //telegram:
-        cy.get('a.socials_link').eq(1).should('have.attr', 'href').and('include', 't.me');
-        //youtube:
-        cy.get('a.socials_link').eq(2).should('have.attr', 'href').and('include', 'youtube');
-        //instagram:
-        cy.get('a.socials_link').eq(3).should('have.attr', 'href').and('include', 'instagram');
-        //linkedin:
-        cy.get('a.socials_link').eq(4).should('have.attr', 'href').and('include', 'linkedin');
-        //contacts links:
-        cy.get('.contacts_link.display-4').invoke('text').should('include', 'ithillel.ua');
-        cy.get('.contacts_link.h4').invoke('text').should('include', 'support@ithillel.ua');
+
+    describe('Re-enter password field validation', () => {
+        it('Empty field: Re-Enter password is required. Also check text color, border color', () => {
+            cy.get(fieldReEnterPassword)
+                .focus()
+                .blur();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Re-enter password required')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong lenght (7 characters): Re-Enter password is incorrect', () => {
+            cy.get(fieldReEnterPassword)
+                .type('Sj4v_f8')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+
+        it('Wrong lenght (16 characters): Re-Enter password is incorrect', () => {
+            cy.get(fieldReEnterPassword)
+                .type('Sj4v_f8#Sj4v_f8!')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no capital letter): Re-Enter password is incorrect', () => {
+            cy.get(fieldReEnterPassword)
+                .type('sj4v_f8#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no small letter): Re-Enter password is incorrect', () => {
+            cy.get(fieldReEnterPassword)
+                .type('SJ4V_F8#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Wrong data (no integer): Re-Enter password is incorrect', () => {
+            cy.get(fieldReEnterPassword)
+                .type('SJaV_Fn#')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+        it('Match: Password and Re-Enter password are not the same', () => {
+            cy.get(fieldPassword).type('Sj4v_f8#');
+
+            cy.get(fieldReEnterPassword)
+                .type('Sj4v_f8!')
+                .tab();
+
+            cy.get(errorMessage)
+                .should('include.text', 'Passwords do not match')
+                .and('have.css', 'color', 'rgb(220, 53, 69)');
+
+            cy.get(fieldReEnterPassword).should('have.css', 'border-color', 'rgb(220, 53, 69)');
+        });
+    });
+    describe('Register button validations: some field is empty', () => {
+        it('Empty Name, other are correct', () => {
+            //cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Empty Last Name, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            //cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Empty Email, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            //cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Empty Password, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            //cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Empty Re-Enter password, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            //cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+    });
+    describe('Register button validations: some field is incorrect', () => {
+        it('Name is incorrect, other are correct', () => {
+            cy.get(fieldName).type('John Gaspar');           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Last Name is incorrect, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type('John Gaspar');           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Email is incorrect, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type('john@gaspar@gmail.com');           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Password is incorrect, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+        it('Re-Enter password is incorrect, other are correct', () => {
+            cy.get(fieldName).type(randomUser.firstName);           
+            cy.get(fieldLastName).type(randomUser.lastName);           
+            cy.get(fieldEmail).type(randomUser.email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8!');           
+            cy.get('.btn-primary').contains('Register').should('have.attr', 'disabled');
+        });
+    });
+    describe('User creation validations', () => {
+
+        let email = randomUser.email;
+
+        it('Create user with correct data', () => {
+            cy.get(fieldName).type('John');           
+            cy.get(fieldLastName).type('Gaspar');           
+            cy.get(fieldEmail).type(email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').click();
+            cy.get('h1').contains('Garage').should('be.visible');
+            cy.get(btnLogOut).click();
+        });
+        it('User already exists', () => {
+            cy.get(fieldName).type('John');           
+            cy.get(fieldLastName).type('Gaspar');           
+            cy.get(fieldEmail).type(email);           
+            cy.get(fieldPassword).type('Sj4v_f8#');           
+            cy.get(fieldReEnterPassword).type('Sj4v_f8#');           
+            cy.get('.btn-primary').contains('Register').click();
+            cy.get(alert)
+            .should('include.text', 'User already exists')
+            .and('have.css', 'color', 'rgb(114, 28, 36)');
+        });
     });
 });
