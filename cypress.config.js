@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  reporter: 'cypress-mochawesome-reporter',
   e2e: {
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
@@ -16,6 +17,7 @@ module.exports = defineConfig({
     // },
     viewportWidth: 1920,
     viewportHeight: 1080,
+
     video: true,
     screenshotOnRunFailure: true,
 
@@ -24,7 +26,6 @@ module.exports = defineConfig({
       MAIN_USER_PASSWORD: "Admin123!",
     }
   },
-  reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
     reportDir: 'cypress/reports',
     overwrite: true,

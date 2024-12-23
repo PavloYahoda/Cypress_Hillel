@@ -11,6 +11,8 @@
     "config1": "cypress run --config-file cypress.config.js",
     "config2": "cypress run --config-file cypress.config2.js",
     "config1_open": "cypress open --config-file cypress.config.js",
-    "config2_open": "cypress open --config-file cypress.config2.js"
+    "config2_open": "cypress open --config-file cypress.config2.js",
+    "test:report": "cypress run --reporter cypress-mochawesome-reporter",
+    "test:open": "cypress open"
   }
 }
