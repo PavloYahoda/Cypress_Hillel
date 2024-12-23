@@ -11,13 +11,15 @@ class GaragePage{
     get alertCarRemoved(){
         return cy.contains('.alert', 'Car removed')
     }
+    get alertCarUpdated(){
+        return cy.contains('.alert', 'Car updated')
+    }
     get btnAddCar(){
         return cy.get('.btn-primary');
     }
     get pageName(){
         return cy.get('h1');
     }
-
 
 
     clickAddCarButton(){
@@ -50,6 +52,9 @@ class GaragePage{
     verifyCarIsRemovedByAlert(){
         this.alertCarRemoved.should('be.visible');
     }
+    verifyCarIsUpdatedByAlert(){
+        this.alertCarUpdated.should('be.visible');
+    }
     verifyPageNameByText(text){
         this.pageName.should('have.text', text)
     }
@@ -67,6 +72,16 @@ class GaragePage{
         cy.get('.car-list .car-item')
             .filter(`:contains("${fullName}")`)
             .should('not.exist');
+    }
+    verifyMileageIsNotChanged (brand, model, index = 0){
+        const fullName = `${brand} ${model}`;
+        const currentMileage = '1236';
+        return cy
+        .get('.car .jumbotron')
+        .filter(`:contains(${fullName})`)
+        .eq(index)
+        .find('input[name="miles"]')
+        .invoke('text').eq(currentMileage);
     }
 
 

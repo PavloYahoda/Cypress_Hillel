@@ -18,7 +18,7 @@ describe('Actions with car: add car, add fuel expenses, edit data, remove car', 
     
     //Preconditions: 
     // No car with brand and model spesified in variables is present in Garage.
-    // For actions on forms Audi TT should be present in Garage.
+    // For actions on forms Audi TT should be present in Garage (mileage = 1236).
     let brand = "Ford";
     let model = "Fusion";
     let mileage = "17000";
@@ -116,7 +116,43 @@ describe('Actions with car: add car, add fuel expenses, edit data, remove car', 
             EditCarForm.isModalTitleVisible(true);
             EditCarForm.clickCancelButton();
             EditCarForm.isModalTitleVisible(false);
-        }); 
+        });
+        it('Edit car form: fill with negative value', () => {
+            GaragePage.verifyCarIsDisplayed('Audi', 'TT');
+            GaragePage.clickEditCarButton('Audi', 'TT');
+            EditCarForm.isModalTitleVisible(true);
+            EditCarForm.fillMileage('-40');
+            EditCarForm.verifyFieldErrorByText('Mileage has to be from 0 to 999999');
+            EditCarForm.verifySaveButtonIsDisabled();
+        });
+        it('Edit car form: save with less value', () => {
+            GaragePage.verifyCarIsDisplayed('Audi', 'TT');
+            GaragePage.clickEditCarButton('Audi', 'TT');
+            EditCarForm.isModalTitleVisible(true);
+            EditCarForm.fillMileage('1230');
+            EditCarForm.clickSaveButton();
+            EditCarForm.verifyErrorMessageLessMileage();
+        });
+        it('Edit car form: save with empty value', () => {
+            GaragePage.verifyCarIsDisplayed('Audi', 'TT');
+            GaragePage.clickEditCarButton('Audi', 'TT');
+            EditCarForm.isModalTitleVisible(true);
+            EditCarForm.clearMileageField();
+            EditCarForm.verifyFieldErrorByText('Mileage cost required');
+            EditCarForm.verifySaveButtonIsDisabled();
+        });
+
+        //Fill with 0 has different result on second version of site
+        // it('Edit car form: save with 0', () => {
+        //     GaragePage.verifyCarIsDisplayed('Audi', 'TT');
+        //     GaragePage.clickEditCarButton('Audi', 'TT');
+        //     EditCarForm.isModalTitleVisible(true);
+        //     EditCarForm.fillMileage('0');
+        //     EditCarForm.clickSaveButton();
+        //     EditCarForm.isModalTitleVisible(false);
+        //     GaragePage.verifyCarIsUpdatedByAlert();
+        //     GaragePage.verifyMileageIsNotChanged('Audi', 'TT');
+        // });
     });
     describe('Actions on "Add an expense" form', () => {
         it('Check Cancel button on "Add an expense" form', () => {
@@ -127,6 +163,89 @@ describe('Actions with car: add car, add fuel expenses, edit data, remove car', 
             AddFuelExpenseForm.isModalTitleVisible(true);
             AddFuelExpenseForm.clickCancelButton();
             AddFuelExpenseForm.isModalTitleVisible(false);
-        })
+        });
+        it('Add fuel expense with the same mileage', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillNumberOfLiters('40');
+            AddFuelExpenseForm.fillTotalCost('8.3');
+            AddFuelExpenseForm.clickAddButton();
+            AddFuelExpenseForm.verifyErrorMessageIsDisplayed();
+        });
+        it('Add fuel expense with empty "Number of liters" field', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.triggerEmptyErrorMessageByField('Number of liters');
+            AddFuelExpenseForm.fillTotalCost('8.3');
+            AddFuelExpenseForm.verifyFieldErrorByText('Liters required');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
+        it('Add fuel expense with empty "Total cost" field', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.fillNumberOfLiters('40');
+            AddFuelExpenseForm.triggerEmptyErrorMessageByField('Total cost');
+            AddFuelExpenseForm.verifyFieldErrorByText('Total cost required');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
+        it('Add fuel expense with negative liters', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.fillNumberOfLiters('-40');
+            AddFuelExpenseForm.fillTotalCost('8.3');
+            AddFuelExpenseForm.verifyFieldErrorByText('Liters has to be from 0.01 to 9999');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
+        it('Add fuel expense with negative cost', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.fillTotalCost('-10');
+            AddFuelExpenseForm.fillNumberOfLiters('40');
+            AddFuelExpenseForm.verifyFieldErrorByText('Total cost has to be from 0.01 to 1000000');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
+        it('Add fuel expense with 0 liters', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.fillNumberOfLiters('0');
+            AddFuelExpenseForm.fillTotalCost('8.2');
+            AddFuelExpenseForm.verifyFieldErrorByText('Liters has to be from 0.01 to 9999');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
+        it('Add fuel expense with 0 cost', () => {
+            SideBar.clickFuelExpensesTab();
+            FuelExpensePage.verifyPageNameByText('Fuel expenses');
+            FuelExpensePage.selectCarByNameAndIndex('Audi', 'TT');
+            FuelExpensePage.clickAddAnExpenseButton();
+            AddFuelExpenseForm.isModalTitleVisible(true);
+            AddFuelExpenseForm.fillMileage('98700');
+            AddFuelExpenseForm.fillTotalCost('0');
+            AddFuelExpenseForm.fillNumberOfLiters('40');
+            AddFuelExpenseForm.verifyFieldErrorByText('Total cost has to be from 0.01 to 1000000');
+            AddFuelExpenseForm.verifyAddButtonIsDisabled();
+        });
     });   
 })

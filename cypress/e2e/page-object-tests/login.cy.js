@@ -15,8 +15,10 @@ describe('Login', () => {
     });
 
     it('Login with correct credentials', () => {
-        SignInForm.fillEmail(Helper.testUserEmail);
-        SignInForm.fillPassword(Helper.testUserPassword);
+        //SignInForm.fillEmail(Helper.testUserEmail);
+        //SignInForm.fillPassword(Helper.testUserPassword);
+        SignInForm.fillEmail(Cypress.env('MAIN_USER_EMAIL'));
+        SignInForm.fillPassword(Cypress.env('MAIN_USER_PASSWORD'));
         SignInForm.clickLoginButton();
         GaragePage.verifySuccessLoginByAlert();
     })

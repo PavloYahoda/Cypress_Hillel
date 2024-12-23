@@ -6,5 +6,11 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.3.0"
+  },
+  "scripts": {
+    "config1": "cypress run --config-file cypress.config1.js",
+    "config2": "cypress run --config-file cypress.config2.js",
+    "config1_open": "cypress open --config-file cypress.config1.js",
+    "config2_open": "cypress open --config-file cypress.config2.js"
   }
 }

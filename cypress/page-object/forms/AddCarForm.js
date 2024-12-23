@@ -41,6 +41,7 @@ class AddCarForm{
     }
 
     fillMileage(value){
+        this.fieldMileage.clear();
         this.fieldMileage.type(value);
         this.fieldMileage.blur(); //for negative scenario
     }

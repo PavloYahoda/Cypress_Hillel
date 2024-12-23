@@ -18,6 +18,9 @@ class AddFuelExpenseForm{
     get btnAdd(){
         return cy.contains('.modal-footer > .btn-primary', 'Add');
     }
+    get errorMessageWrongMileage(){
+        return cy.contains('.alert-danger', 'New mileage must not be less or equal to previous expense value. Previous expense value is 1236');
+    }
 
 
 
@@ -28,6 +31,7 @@ class AddFuelExpenseForm{
     fillMileage(value){
         this.fieldMileage.clear();
         this.fieldMileage.type(value);
+        this.fieldMileage.blur();
     }
     fillNumberOfLiters(value){
         this.fieldNumberOfLiters.type(value);
@@ -44,10 +48,17 @@ class AddFuelExpenseForm{
     verifyAddButtonIsDisabled(){
         this.btnAdd.should('be.disabled');
     }
-
-
-
-
+    verifyFieldErrorByText(text){
+        cy.contains('.invalid-feedback > p', text).should('be.visible');
+    }
+    verifyErrorMessageIsDisplayed(){
+        this.errorMessageWrongMileage.should('be.visible');
+    }
+    triggerEmptyErrorMessageByField(fieldName){
+        const element = fieldName === 'Number of liters' ? this.fieldNumberOfLiters : this.fieldTotalCost;
+        element.focus();
+        element.blur();
+    }
 }
 
 export default new AddFuelExpenseForm();

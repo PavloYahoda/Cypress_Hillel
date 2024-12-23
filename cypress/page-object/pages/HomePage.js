@@ -5,16 +5,18 @@ class HomePage{
     }
 
     open(){
-        cy.visit('https://qauto.forstudy.space', {
 
-            auth: {
+        cy.visit('/');
+        // cy.visit('https://qauto.forstudy.space', {
 
-                username: 'guest',
+        //     auth: {
 
-                password: 'welcome2qauto',
+        //         username: 'guest',
 
-            },
-        });
+        //         password: 'welcome2qauto',
+
+        //     },
+        // });
     }
 
     clickSignInButton(){
