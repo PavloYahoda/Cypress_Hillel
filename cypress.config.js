@@ -3,7 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      require('cypress/node-modules/cypress-mochawesome-reporter/plugin')(on);
+      require('cypress-mochawesome-reporter/plugin')(on);
       // on('after:run', (results) => {
       //   console.log('Tests completed:', results);
       // });

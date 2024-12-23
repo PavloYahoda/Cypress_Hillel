@@ -26,8 +26,8 @@ describe('Actions with car: add car, add fuel expenses, edit data, remove car', 
     beforeEach(() => {
         HomePage.open();
         HomePage.clickSignInButton();
-        SignInForm.fillEmail(Helper.testUserEmail);
-        SignInForm.fillPassword(Helper.testUserPassword);
+        SignInForm.fillEmail(Cypress.env('MAIN_USER_EMAIL'));
+        SignInForm.fillPassword(Cypress.env('MAIN_USER_PASSWORD'));
         SignInForm.clickLoginButton();
         GaragePage.verifySuccessLoginByAlert();
         GaragePage.verifyPageNameByText('Garage');
