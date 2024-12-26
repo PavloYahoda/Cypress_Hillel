@@ -5,13 +5,13 @@
     "cypress-plugin-tab": "^1.0.5"
   },
   "dependencies": {
-    "@faker-js/faker": "^9.3.0"
+    "@faker-js/faker": "^9.3.0",
+    "cypress-plugin-api": "^2.11.2",
+    "dayjs": "^1.11.13"
   },
   "scripts": {
-    "config1": "cypress run --config-file cypress.config.js",
-    "config2": "cypress run --config-file cypress.config2.js",
-    "config1_open": "cypress open --config-file cypress.config.js",
-    "config2_open": "cypress open --config-file cypress.config2.js",
+    "config": "cypress run --config-file cypress.config.js",
+    "config_open": "cypress open --config-file cypress.config.js",
     "test:report": "cypress run --reporter cypress-mochawesome-reporter",
     "test:open": "cypress open"
   }

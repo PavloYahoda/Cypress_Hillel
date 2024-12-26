@@ -17,6 +17,7 @@
 import './commands';
 import 'cypress-plugin-tab';
 import 'cypress-mochawesome-reporter/register';
+import 'cypress-plugin-api'
 
 
 // Alternatively you can use CommonJS syntax:
