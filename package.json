@@ -1,9 +1,18 @@
 {
   "devDependencies": {
     "cypress": "^13.16.1",
+    "cypress-mochawesome-reporter": "^3.8.2",
     "cypress-plugin-tab": "^1.0.5"
   },
   "dependencies": {
     "@faker-js/faker": "^9.3.0"
+  },
+  "scripts": {
+    "config1": "cypress run --config-file cypress.config.js",
+    "config2": "cypress run --config-file cypress.config2.js",
+    "config1_open": "cypress open --config-file cypress.config.js",
+    "config2_open": "cypress open --config-file cypress.config2.js",
+    "test:report": "cypress run --reporter cypress-mochawesome-reporter",
+    "test:open": "cypress open"
   }
 }

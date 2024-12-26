@@ -1,6 +1,12 @@
 const { faker } = require('@faker-js/faker');
 
 class Helper {
+  
+  static testUserEmail = "jack.black@gmail.com";
+  static testUserPassword = "Admin123!";
+  
+  
+  
   static generateRandomUser() {
     const fName = faker.person.firstName();
     const lName = faker.person.lastName();
@@ -11,6 +17,8 @@ class Helper {
       email: email,
     };
   }
+
+
 }
 
 // static generateRandomUser() {
