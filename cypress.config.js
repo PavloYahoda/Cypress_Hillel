@@ -9,6 +9,8 @@ module.exports = defineConfig({
       //   console.log('Tests completed:', results);
       // });
     },
+
+    supportFile: 'cypress/support/e2e.js',
     baseUrl: 'https://guest:welcome2qauto@qauto.forstudy.space',
     chromeWebSecurity: false,
     // retries: {
@@ -22,6 +24,7 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
 
     env: {
+      BASEURL: "https://guest:welcome2qauto@qauto.forstudy.space",
       MAIN_USER_EMAIL: "jack.black@gmail.com",
       MAIN_USER_PASSWORD: "Admin123!",
     }

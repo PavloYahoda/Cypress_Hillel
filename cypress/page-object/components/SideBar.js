@@ -6,6 +6,9 @@ class SideBar{
     get tabFuelExtenses(){
         return cy.get('.sidebar [routerlink="expenses"]');
     }
+    get tabProfile(){
+        return cy.get('.sidebar [routerlink="profile"]');
+    }
 
 
 
@@ -14,6 +17,9 @@ class SideBar{
     }
     clickFuelExpensesTab(){
         this.tabFuelExtenses.click();
+    }
+    clickProfileTab(){
+        this.tabProfile.click();
     }
 
 
